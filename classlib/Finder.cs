@@ -125,6 +125,7 @@ namespace classlib
             using var reader = command.ExecuteReader();
             Console.WriteLine($"Albums by {name}");
             Console.WriteLine("___________________________");
+            if(!reader.HasRows){Console.WriteLine($"NONE FOUND BY ARTIST: {name}");}
             while(reader.Read())
             {
                 {
@@ -151,6 +152,7 @@ namespace classlib
             using var reader = command.ExecuteReader();
             Console.WriteLine($"Songs by {name}");
             Console.WriteLine("___________________________");
+            if(!reader.HasRows){Console.WriteLine($"NONE FOUND BY ARTIST: {name}");}
             while(reader.Read())
             {
                 {
@@ -176,6 +178,7 @@ namespace classlib
             using var reader = command.ExecuteReader();
             Console.WriteLine(@"Songs:ID - Name - Genre - Length in Seconds");
                 Console.WriteLine("___________________________");
+            if(!reader.HasRows){Console.WriteLine($"NONE FOUND WITH GENRE: {genre}");}
             while(reader.Read())
             {
                 
@@ -206,7 +209,13 @@ namespace classlib
             using var reader = command.ExecuteReader();
             while(reader.Read())
             {
-            Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+                if(reader.GetInt32(0) == 0)
+                {
+                    Console.WriteLine($"NONE FOUND FROM ALBUM: {name}");
+                }else
+                {
+                    Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+                }
             }
         }
         public static void showSongsCountbyArtist(string name)
@@ -225,9 +234,16 @@ namespace classlib
                 ";
             command.Parameters.AddWithValue("$name",name);
             using var reader = command.ExecuteReader();
+
             while(reader.Read())
             {
-            Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+            if(reader.GetInt32(0) == 0)
+                {
+                    Console.WriteLine($"NONE FOUND FROM ALBUM: {name}");
+                }else
+                {
+                    Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+                }
             }
         }
 
