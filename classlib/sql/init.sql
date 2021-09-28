@@ -1,0 +1,28 @@
+-- CREATE TABLE songs
+-- (
+--     id integer Primary Key AutoIncrement,
+--     name varchar(20),
+--     genre varchar(20),
+--     length integer
+-- );
+-- CREATE TABLE artists
+-- (
+--     id integer primary key AUTOINCREMENT,
+--     name varchar(20)
+-- );
+-- create table albums
+-- (
+--     id integer primary key AUTOINCREMENT,
+--     name varchar(20),
+--     artists_id integer,
+--     FOREIGN KEY(artists_id) REFERENCES artists(id)
+-- );
+-- create table tracklist
+-- (
+--     songs_id integer,
+--     albums_id integer,
+--     FOREIGN KEY(songs_id) REFERENCES songs(id),
+--     FOREIGN KEY(albums_id) REFERENCES albums(id)
+-- );
+
+    
