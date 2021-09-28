@@ -133,6 +133,103 @@ namespace classlib
                 }
             }
         }
+        public static void showSongsByArtist(string name)
+        {   
+            using var connection = new SqliteConnection("Data Source=./classlib/Data/songstation.db");
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                SELECT songs.name, songs.genre, songs.length
+                From tracklist
+                JOIN albums on tracklist.albums_id = albums.id
+                Join songs on tracklist.songs_id = songs.id
+                join artists on albums.artists_id = artists.id
+                WHERE artists.name = $name;
+            ";
+            command.Parameters.AddWithValue("$name",name);
+            using var reader = command.ExecuteReader();
+            Console.WriteLine($"Songs by {name}");
+            Console.WriteLine("___________________________");
+            while(reader.Read())
+            {
+                {
+                var songsName = reader.GetString(0);
+                var genre = reader.GetString(1);
+                var length = reader.GetInt32(2);
+                Console.WriteLine($"{songsName} - {genre} - {length}");
+                }
+            }
+        }
+         public static void showByGenre(string genre)
+        {  
+            using var connection = new SqliteConnection("Data Source=./classlib/Data/songstation.db");
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                SELECT *
+                FROM songs
+                WHERE songs.genre = $genre;
+            ";
+            command.Parameters.AddWithValue("$genre", genre);
+            using var reader = command.ExecuteReader();
+            Console.WriteLine(@"Songs:ID - Name - Genre - Length in Seconds");
+                Console.WriteLine("___________________________");
+            while(reader.Read())
+            {
+                
+                var id = reader.GetInt32(0);
+                var name = reader.GetString(1);
+                var outputgenre = reader.GetString(2);
+                var length = reader.GetInt32(3);
+
+                
+                Console.WriteLine($"Row: {id} - {name} - {outputgenre} - {length}");
+                
+            }
+        }
+        public static void showSongsCountByAlbum(string name)
+        {   
+            using var connection = new SqliteConnection("Data Source=./classlib/Data/songstation.db");
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                SELECT COUNT(songs.name)
+                From tracklist
+                JOIN albums on tracklist.albums_id = albums.id
+                Join songs on tracklist.songs_id = songs.id
+                WHERE albums.name = $name;
+                ";
+            command.Parameters.AddWithValue("$name",name);
+            using var reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+            Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+            }
+        }
+        public static void showSongsCountbyArtist(string name)
+        {
+            using var connection = new SqliteConnection("Data Source=./classlib/Data/songstation.db");
+            connection.Open();
+            var command = connection.CreateCommand();
+            command.CommandText =
+            @"
+                SELECT COUNT(songs.name)
+                From tracklist
+                JOIN albums on tracklist.albums_id = albums.id
+                Join songs on tracklist.songs_id = songs.id
+                join artists on albums.artists_id = artists.id
+                WHERE artists.name = $name;
+                ";
+            command.Parameters.AddWithValue("$name",name);
+            using var reader = command.ExecuteReader();
+            while(reader.Read())
+            {
+            Console.WriteLine($"Songs from {name} : {reader.GetInt32(0)}");
+            }
+        }
 
 
     }

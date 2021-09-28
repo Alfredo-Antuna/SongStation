@@ -30,10 +30,12 @@
 -- SELECT * from tracklist;
 -- select * from albums;
 -- select * from artists;
-SELECT albums.name
-From artists
-JOIN albums on albums.artists_id = artists.id
-WHERE artists.name = "lil whileLoop"
+-- select * from songs;
+SELECT COUNT(songs.name)
+From tracklist
+JOIN albums on tracklist.albums_id = albums.id
+Join songs on tracklist.songs_id = songs.id
+WHERE albums.name = "theAlbum";
 
 
 
